@@ -21,10 +21,7 @@ To make the world feel alive, the game will feature independent storylines with 
 
 ## Development Goals
 
-1. **Interactive Decision-Making**: Players interact with LLMs to resolve issues presented by characters. Outcomes of decisions are simulated by another LLM instance, affecting the world's state.
-2. **Independent Storylines**: Simulate actions of non-player characters (NPCs) independent of the player's decisions, adding depth to the game world.
-3. **Resource Management**: Integrate a turn-based card game or idle game mechanics to manage resources, enhancing the gameplay experience without overwhelming computational resources.
-4. **Comprehensive Memory System**: Develop a sophisticated memory system to track the world state, character motivations, and player decisions, ensuring consistent and engaging storytelling.
+Currently, this project is undergoing a full rewrite. The current plan is to build up incrimentally. First I'm going to setup documentation and whatever else to get things started right, then I'm going to work on either the GUI or setting up LLM implementations working towards a working build of the core gameplay. If you want to contribute send me a message and I'll formalize this section and whatever else for contribution.
 
 ## Current Status
 
@@ -34,18 +31,18 @@ The project is in the early stages of development. I've been working on this pro
 
 ### Requirements
 
-- Access to LLM via OpenAI API or a local setup (e.g., LM Studio with LLama 2 7B Q8).
+- Access to LLM via OpenAI API (LM Studio let's you host a pseudo OpenAI server locally)
 - Basic knowledge of Python and command-line operations.
 
 ### Installation Instructions
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/neburtron/Lord-Game.git
+   git clone https://github.com/neburtron/wears-the-crown.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd Lord-Game
+   cd wears-the-crown
    ```
 3. Install the necessary dependencies:
    ```bash
@@ -70,18 +67,12 @@ This project is licensed under the Unlicense, placing it in the public domain. F
 Creator and Maintainer: MuteMaroonWorm (formerly Neburtron)
 - GitHub: [neburtron](https://github.com/neburtron)
 - Email: mutemaroonworm@gmail.com
-- DeviantArt: Linked on GitHub profile
+- DeviantArt: [MuteMAR](https://www.deviantart.com/mutemar)
+
 
 ## Inspiration
 
 This project draws significant inspiration from "Sort the Court", an indie game known for its narrative-driven gameplay. To experience it, visit [Sort the Court on Itch.io](https://graebor.itch.io/sort-the-court).
 
-For detailed plans and future updates, refer to [Plans_and_Files.md](plans_and_files.md).
 
 ---
-
----
-
-Please note that you are currently on a free plan which is significantly limited by the number of requests. To increase your quota, you can check available plans [here](https://c7d59216ee8ec59bda5e51ffc17a994d.auth.portal-pluginlab.ai/pricing).
-
-Useful links: [Documentation](https://docs.askthecode.ai), [GitHub](https://github.com/askthecode/documentation), [Twitter](https://twitter.com/askthecode_ai)
