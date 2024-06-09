@@ -1,6 +1,6 @@
 ---
 
-# Lord-Game: The Head that Wears the Crown
+# The Head that Wears the Crown
 
 Welcome to "The Head that Wears the Crown", an ambitious project that aims to create a dynamic story generator game. Inspired by narrative-driven games like Dwarf Fortress, RimWorld, and Crusader Kings, this game seeks to provide the same sort of structure and player agency with gameplay more akin to that of Sort the Court.
 
@@ -22,6 +22,8 @@ To make the world feel alive, the game will feature independent storylines with 
 ## Development Goals
 
 Currently, this project is undergoing a full rewrite. The current plan is to build up incrimentally. First I'm going to setup documentation and whatever else to get things started right, then I'm going to work on either the GUI or setting up LLM implementations working towards a working build of the core gameplay. If you want to contribute send me a message and I'll formalize this section and whatever else for contribution.
+
+For more information on development, refer to [PLANS.md](docs/PLANS.md)
 
 ## Current Status
 
@@ -56,11 +58,11 @@ The project is in the early stages of development. I've been working on this pro
 
 ## Contribution
 
-We welcome contributions from developers and enthusiasts interested in this project. For more details on contributing, refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file or contact the project maintainer.
+We welcome contributions from developers and enthusiasts interested in this project. For more details on contributing, refer to the [CONTRIBUTING.md](docs/CONTRIBUTING.md) file or contact the project maintainer.
 
 ## License
 
-This project is licensed under the Unlicense, placing it in the public domain. For more details, see the [LICENSE](LICENSE) file.
+This project is licensed under the Unlicense, placing it in the public domain. For more details, see the [LICENSE](docs/LICENSE) file.
 
 ## Contact
 

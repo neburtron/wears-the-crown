@@ -1,6 +1,6 @@
 ---
 
-# Contributing to Lord-Game
+# Contributing to the Head that Wears the Crown
 
 We welcome contributions to Lord-Game! Whether you're fixing a bug, improving the documentation, or adding a new feature, your help is greatly appreciated.
 
