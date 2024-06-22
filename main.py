@@ -2,9 +2,8 @@ import commands
 import select_llm_details
 import playground
 
-print("Welcome!\n\n")
-
 def main():
+    print("Welcome!\n\n")
     print("Do you want to change LLM settings? (write Y for yes, N for no)")
     choose = input().strip().upper()
     
@@ -14,23 +13,20 @@ def main():
         print("Invalid input. Exiting...")
         return
     
-    saves()
-    
+    saves_menu()
 
-def saves():
+def saves_menu():
     saves = commands.list_saves()
     
     for save in saves:
         print(f"\n{save}\n")
         
-    thing = input().strip().lower()
+    thing = input("Enter the name of the save to load or create: ").strip().lower()
     if thing in saves:
         playground.main(thing)
     else:
         commands.make_save(thing)
-    
-
-
+        playground.main(thing)
 
 if __name__ == "__main__":
     main()

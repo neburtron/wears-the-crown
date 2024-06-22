@@ -46,7 +46,7 @@ def main(msgs):
             )
             return completion.choices[0].message
         except Exception as e:
-            commands.printspace(f"Error during LLM interaction: {e}")
+            print(f"Error during LLM interaction: {e}")
             return None
 
     elif tab == 1:

@@ -1,6 +1,23 @@
 import json
 import os
 
+def save_txt(file_name, content):
+    try:
+        with open(file_name, 'w') as file:
+            file.write(content)
+        print(f"Content successfully written to {file_name}")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+
+def read_file(filename):
+    try:
+        with open(filename, 'r') as f:
+            return f.read()
+    except FileNotFoundError:
+        print(f"Error: {filename} not found.")
+        return ''
+
 
 def save_json(filename, contents):
     try:
