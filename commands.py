@@ -1,5 +1,6 @@
-import json
 import os
+import json
+import shutil
 
 def save_txt(file_name, content):
     try:
@@ -9,7 +10,6 @@ def save_txt(file_name, content):
     except Exception as e:
         print(f"Error occurred: {e}")
 
-
 def read_file(filename):
     try:
         with open(filename, 'r') as f:
@@ -17,7 +17,6 @@ def read_file(filename):
     except FileNotFoundError:
         print(f"Error: {filename} not found.")
         return ''
-
 
 def save_json(filename, contents):
     try:
@@ -64,12 +63,24 @@ def list_saves():
     
     return folder_names
 
-
 def make_save(save):
     try:
-        os.mkdir("Saves/" + save)
+        save_path = f"saves/{save}"
+        os.makedirs(save_path)
+        
+        # Define the template path and the initial turn directory
+        template_path = "saves/startTemplate"
+        initial_turn_path = os.path.join(save_path, "0")
+        
+        # Copy the template contents to the initial turn directory
+        if os.path.exists(template_path):
+            shutil.copytree(template_path, initial_turn_path)
+        else:
+            print(f"Template path '{template_path}' does not exist.")
+            return "Template Not Found"
+        
         print("\nSave Creation Success!\n")
         return "Success"
     except Exception as e:
-       print(f"\nSave Creation Failed: {e}\n")
-       return "Save Creation Failed"
+        print(f"\nSave Creation Failed: {e}\n")
+        return "Save Creation Failed"

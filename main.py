@@ -1,3 +1,4 @@
+import os
 import commands
 import select_llm_details
 import playground
@@ -18,15 +19,25 @@ def main():
 def saves_menu():
     saves = commands.list_saves()
     
-    for save in saves:
-        print(f"\n{save}\n")
-        
+    if saves:
+        print("Available saves:")
+        for save in saves:
+            print(f"- {save}")
+    else:
+        print("No saves available.")
+    
     thing = input("Enter the name of the save to load or create: ").strip().lower()
+    
     if thing in saves:
+        print(f"Loading save: {thing}")
         playground.main(thing)
     else:
-        commands.make_save(thing)
-        playground.main(thing)
+        print(f"Creating new save: {thing}")
+        result = commands.make_save(thing)
+        if result == "Success":
+            playground.main(thing)
+        else:
+            print(f"Failed to create save: {result}")
 
 if __name__ == "__main__":
     main()

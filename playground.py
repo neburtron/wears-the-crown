@@ -1,80 +1,96 @@
 import os
 import llm_interface
 import commands
+import random
 
-def main(thing):
-    run_instance = Run(thing)
-    run_instance.main()
+instruct = commands.read_file("prompt.txt")
+runForTurns = 10
+currentTurn = 0
+fileNum = 0
+currentState = ""
 
-class Run:
+def create_directory(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
-    def __init__(self, thing) -> None:
-        self.array = []
-        self.instruct = commands.read_file("prompt.txt")
-        self.thing = thing
-        self.turns_to_run = 10
-        save_path = f"saves/{self.thing}"
-        
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
-            self.passed_turns = 0
-        else:
-            self.passed_turns = len(os.listdir(save_path))
-        
-        if self.passed_turns > 0:
-            self.turn = commands.load_json(f"{save_path}/{self.passed_turns - 1}/file.json")['turn']
-        else:
-            print("Start the thing off.\n\n\n")
-            self.turn = input()
-
-    def array_input(self, role, msg):
-        self.array.append({"role": role, "content": msg})
-
-    def main(self):
-        for turn in range(self.turns_to_run):
-            self.array.clear()
-            self.array_input("system", self.instruct)
-            self.array_input("user", self.turn)
-            
-            print(self.array)
-        
-            response = llm_interface.main(self.array)
-        
-            self.deal_w_response(response)
-        
-            self.passed_turns += 1
-            save_path = f"saves/{self.thing}/{self.passed_turns}"
-            if not os.path.exists(save_path):
-                os.makedirs(save_path)
-        
-            # Assuming self.turn is updated to be a string in deal_w_response
-            commands.save_txt(f"{save_path}/file.txt", {"turn": self.turn})
-
-
+def main(save):
+    global currentTurn, savePath, currentState, fileNum
+    savePath = f"saves/{save}"
     
-    def deal_w_response(self, response):
-        if response is None:
-            # Handle the case where no valid response was received
-            print("Error: No valid response received.")
-            return
-
-        # Implement the response handling logic here
-        print(f"Response: {response}")
+    if not os.path.exists(savePath):
+        print(f"Error: Save path '{savePath}' does not exist.")
+        return
     
-        # Assuming the response object has a 'content' attribute and other attributes you need to serialize
-        #serializable_response = {
-            #"content": response.content,
-            #"role": response.role,
-            # Include any other attributes of the response you need
-            # "function_call": response.function_call,
-            # "tool_calls": response.tool_calls,
-        #}
+    for turn in range(runForTurns):
+        currentTurn += 1
+        manageItems(savePath)
 
-        # Assuming the turn is updated here based on the response
-        self.turn = response.content  # Modify this according to your actual logic
 
-        # Save the serializable response instead of the raw response object
-        save_path = f"saves/{self.thing}/{self.passed_turns}"
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
-        commands.save_txt(f"{save_path}/file.txt", response.content)
+def manageItems(save_path):
+    global fileNum, currentTurn
+    
+    turnPath = f"{save_path}/{currentTurn-1}"
+
+        
+    if not os.path.exists(turnPath):
+        print(f"Error: Directory '{turnPath}' does not exist. Skipping turn {currentTurn-1}.")
+        return
+    
+    for i in os.listdir(turnPath):
+        file_path = os.path.join(turnPath, i)
+        if os.path.isfile(file_path):  # Check if it's a file
+            content = commands.read_file(file_path)
+            generate(content)
+
+
+def generate(content):
+    global currentState, instruct
+    currentState1 = currentState
+    
+    if currentState == "":
+        currentState = content
+        return
+    else:
+        array = [
+            {"role": "system", "content": instruct},
+            {"role": "user", "content": currentState},
+            {"role": "user", "content": content}
+        ]
+        print(instruct)
+        print(currentState)
+        print(content)
+        randomChoice = random.choice([0, 1])
+        if randomChoice == 1:
+            pass
+        else:
+            currentState = content
+    
+    response = llm_interface.main(array)
+    print(response.content)
+    
+    deal_w_response(response, currentState1, content)
+
+def deal_w_response(response, one, two):
+    global fileNum, savePath
+    
+    if response is None:
+        # Handle the case where no valid response was received
+        print("Error: No valid response received.")
+        return
+    
+    content = getattr(response, 'content', None)
+    if not content:
+        print("Error: Response content is empty or invalid.")
+        return
+    
+    current_turn_path = f"{savePath}/{currentTurn}"
+    create_directory(current_turn_path)
+    
+    file_path = f"{current_turn_path}/{fileNum}.txt"
+    commands.save_txt(file_path, content)
+    
+    file_path_source = f"{current_turn_path}/source/"
+
+    create_directory(file_path_source)
+    commands.save_txt(file_path_source + "/input" + str(fileNum) + ".txt", one + "\n\n\n" + two)
+    fileNum += 1

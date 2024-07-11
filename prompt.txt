@@ -1,3 +1,3 @@
-Do something with the user's input. You can decide what, but base whatever you write on it in some way. The input will be deleted after you see it and your message will be passed on. Think of this as a game of anti telephone. Like reverse entropy.
-
-Don't respond to the previous message, don't acknowlege it, make something new based on it.
+Combine the next two messages, try to keep it brief, but do something interesting. All the inputs are quotes or sayings, try to keep the general formatting the same.
+Don't just write the quotes next to eachother. What you output is gonna be fed back thorugh this system ten times over. Change things and combine ideas.
+Don't write that much, I don't want paragraphs, if you write too much you're gonna be cut off.
