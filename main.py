@@ -1,7 +1,6 @@
-import os
-import commands
 import select_llm_details
 import playground
+from commands import SaveManager
 
 def main():
     print("Welcome!\n\n")
@@ -13,11 +12,11 @@ def main():
     elif choose != "N":
         print("Invalid input. Exiting...")
         return
-    
     saves_menu()
 
 def saves_menu():
-    saves = commands.list_saves()
+    save_manager = SaveManager()
+    saves = save_manager.list()
     
     if saves:
         print("Available saves:")
@@ -26,16 +25,16 @@ def saves_menu():
     else:
         print("No saves available.")
     
-    thing = input("Enter the name of the save to load or create: ").strip().lower()
+    save = input("Enter the name of the save to load or create: ").strip().lower()
     
-    if thing in saves:
-        print(f"Loading save: {thing}")
-        playground.main(thing)
+    if save in saves:
+        print(f"Loading save: {save}")
+        playground.main(save, "prompt") # save name, prompt file name
     else:
-        print(f"Creating new save: {thing}")
-        result = commands.make_save(thing)
+        print(f"Creating new save: {save}")
+        result = save_manager.create(save)
         if result == "Success":
-            playground.main(thing)
+            playground.main(save, "prompt") # save name, prompt file name
         else:
             print(f"Failed to create save: {result}")
 

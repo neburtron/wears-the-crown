@@ -5,7 +5,6 @@ import json
 import os
 import shutil
 
-
 SETTINGS_FOLDER = "Settings"
 
 OpenAI_Settings = None

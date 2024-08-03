@@ -4,8 +4,8 @@ import commands
 settings = None
 client = None
 is_starting = True
-tab = commands.read_file("Settings/last_tab_index")
-tab = 0  # Temp
+tab = commands.read_file("Settings/last_tab_index.txt")
+tab = 0  # Huggingface not yet implemented
 
 def initialize_openai():
     global settings, client, is_starting
