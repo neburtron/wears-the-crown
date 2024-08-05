@@ -1,6 +1,6 @@
-import select_llm_details
 import playground
-from commands import SaveManager
+from src.commands import SaveManager
+import select_llm_details
 
 def main():
     print("Welcome!\n\n")

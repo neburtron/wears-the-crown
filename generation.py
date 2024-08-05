@@ -1,18 +1,19 @@
 import os
-import llm_interface
-import commands
 import logging
 import random
+from src.llm_interface import LLMInterface
+import src.commands as commands
 
 logging.basicConfig(level=logging.INFO)
 
 class TurnedGenerate:
+        
     def __init__(self, run_for_turns, directory, source, prompt):
         self.run_for_turns = run_for_turns
         self.source = source
         self.directory = directory
         self.prompt = prompt
-        
+
         if not os.path.exists(self.source):
             raise FileNotFoundError(f"Save path '{self.source}' does not exist.")
         
@@ -25,10 +26,11 @@ class TurnedGenerate:
             generate.manage_items(last_turn_path, next_turn_path)    
 
 class Generate:
+    
     def __init__(self, directory, source, prompt):
         self.file_num = 0
         self.current_state = ""
-        self.instruct = commands.read_file(f"prompts/{prompt}.txt")
+        self.instruct = commands.read_txt(f"prompts/{prompt}.txt")
         self.source = source
         self.directory = directory
         
@@ -46,7 +48,7 @@ class Generate:
         for item in os.listdir(source):
             item_path = os.path.join(source, item)
             if os.path.isfile(item_path):
-                content = commands.read_file(item_path)
+                content = commands.read_txt(item_path)
                 self.generate(content)
 
     def generate(self, content):
@@ -54,40 +56,45 @@ class Generate:
         
         if not self.current_state:
             self.current_state = content
-
+            
         conversation = [
             {"role": "system", "content": self.instruct},
             {"role": "user", "content": self.current_state},
             {"role": "user", "content": content}
         ]
-        
+
         # 50% chance held prompt replaced by current one
         if random.random() > 0.5:
             self.current_state = content
             
         logging.info(f"\n\nSystem: {self.instruct}\n\n\nUser1: {self.current_state}\n\nUser2: {content}\n\n")
+        
         try:
-            response = llm_interface.main(conversation)
+            instance = LLMInterface()
+            response = instance.get_response(conversation)
             self.deal_with_response(response, previous_state, content)
         except Exception as e:
             logging.error(f"During LLM interaction: {e}")
             
     def deal_with_response(self, response, previous_state, current_content):
-        if not response or not hasattr(response, 'content') or not response.content:
-            logging.error("No valid response received or response content is empty.")
-            return
         
-        logging.info(f"\nResponse: {response.content}\n")
+        logging.info(f"\nResponse: {response}\n")
 
-        os.makedirs(self.output_path, exist_ok=True)
+        response_content = response.content if response else ""
 
-        file_path = os.path.join(self.output_path, f"{self.file_num}.txt")
-        commands.save_txt(file_path, response.content)
+        # Save raw output 
+        save_response(self.output_path, response_content, self.file_num)
 
+        # Save raw output + inputs
         source = os.path.join(self.output_path, "source")
         os.makedirs(source, exist_ok=True)
-
-        source_file_path = os.path.join(source, f"input{self.file_num}.txt")
-        combined_content = f"{previous_state}\n\n\n{current_content}"
-        commands.save_txt(source_file_path, combined_content)
+                
+        combined_content = f"{previous_state}\n\n{current_content}\n\n\n\n\n{response_content}\n"
+        save_response(source, combined_content, self.file_num)        
         self.file_num += 1
+
+def save_response(output_path, response, file_name):
+    os.makedirs(output_path, exist_ok=True)
+    file_path = os.path.join(output_path, f"{file_name}.txt")    
+    commands.save_txt(file_path, response)
+    

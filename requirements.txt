@@ -1,1 +1,3 @@
 openai==1.14.3
+huggingface_hub
+tkinter

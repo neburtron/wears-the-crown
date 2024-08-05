@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+
 class SaveManager:
     def create(self, save_name):
         try:
@@ -47,16 +48,14 @@ class SaveManager:
             
         return folder_names
     
-
 def save_txt(file_name, content):
     try:
         with open(file_name, 'w') as file:
             file.write(content)
-        print(f"Content successfully written to {file_name}")
     except Exception as e:
-        print(f"Error occurred: {e}")
+        print(f"Error occurred while saving text file '{file_name}': {e}")
 
-def read_file(filename):
+def read_txt(filename):
     try:
         with open(filename, 'r') as f:
             return f.read()
@@ -84,4 +83,7 @@ def load_json(filename):
     
 def create_directory(directory):
     if not os.path.exists(directory):
-        os.makedirs(directory)
+        try:
+            os.makedirs(directory)
+        except OSError as e:
+            print(f"Error creating directory '{directory}': {e}")

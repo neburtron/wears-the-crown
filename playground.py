@@ -1,11 +1,9 @@
 import os
 import logging
-import commands
+import src.commands as commands
 from generation import TurnedGenerate
 
 logging.basicConfig(level=logging.INFO)
-
-
         
 # Main function to set up directories and run the TurnedGenerate process.
 def main(save, prompt):
