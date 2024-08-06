@@ -1,25 +1,6 @@
-"""
-Working on modularity / the framework of it all + making this usable.
-
-This used to be hardcoded, now it's a step towards plug and play
-
-Domains implementation is a WIP, project root dir main.py is going to be changed when I'm not exhausted.
-
-structure / whatever:
-----------------------
-Starting conditions folder W txt files in it
-Special cycles folder - maybe
-terminal_interface script - handles user interface / the thing that handles the order things are called in
-
-main.py
-    - class
-    - called by a UI script
-    - gets cycles from folder in domain / one in cycles tab
-    - runs whatever processes
-    - 
-"""
 import os
 import logging
+# Make new script for this one + go back to first later / just delete it
 from scripts.generation import TurnedGenerate
 import src.commands as commands
 
@@ -42,25 +23,21 @@ class run:
             if position is None:
                 raise ValueError("Failed to load position from state.json")
             
-            turn = position.get("turn", 0)
-            point = position.get("point", 0)
-            
-            start_directory = os.path.join("domains", "testing", "starting_data")
             generate_directory = os.path.join("saves", self.save, "testing")
             
-            if turn == 0 or not os.path.exists(generate_directory):
+            if self.config.turn == 0 or not os.path.exists(generate_directory):
                 commands.create_directory(generate_directory)
             
-            turns = 5 - turn
+            turns = self.config.turn_count - self.config.turn
             logging.info(f"Starting generation process with {turns} turns.")
             
             generate = TurnedGenerate(
-                run_for_turns = turns, 
+                run_for_turns = turns,  # gonna change
                 directory     = generate_directory, 
-                source        = start_directory, 
-                prompt        = "prompt",
-                turn          = turn,
-                point         = point
+                source        = self.config.starting_data, 
+                prompt        = self.config.prompt,
+                turn          = self.config.turn,
+                point         = self.config.point
                 )
             generate.main()
             logging.info("Generation process completed successfully.")

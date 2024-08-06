@@ -1,11 +1,37 @@
+"""
+Better than Telephone script
+
+desc / docs / whatever
+
+
+Turned Generate Class
+---------------------
+
+
+
+
+
+
+Generate Class
+--------------
+
+
+    
+"""
+
 import os
 import logging
 import random
-from src.llm_interface import LLMInterface
+import scripts.simple as simple
+
 import src.commands as commands
-from src.array_manager import ArrayManager
+
+from LLM.array_manager import ArrayManager
 
 logging.basicConfig(level=logging.INFO)
+
+
+# TurnedGenerate should be it's own generalized script or handled by domain
 class TurnedGenerate:
     def __init__(self, run_for_turns, directory, source, prompt, turn, point):
         self.run_for_turns = run_for_turns
@@ -32,12 +58,14 @@ class TurnedGenerate:
             "point": self.point
         }
         commands.save_json(f"{self.directory}/state.json", state)
+        
+
 class Generate:
     
     def __init__(self, directory, source, prompt):
         self.file_num = 0
         self.current_state = ""
-        self.instruct = commands.read_txt(f"prompts/{prompt}.txt")
+        self.instruct = commands.read_txt(f"domains/testing/starting_data/{prompt}.txt") # fix later
         self.source = source
         self.directory = directory
         self.manager = ArrayManager()
@@ -58,34 +86,21 @@ class Generate:
             if os.path.isfile(item_path):
                 content = commands.read_txt(item_path)
                 self.generate(content)
-
+                response = simple.call_llm(self.manager.array)
+                self.deal_with_response(response)
+                
     def generate(self, content):
-        previous_state = self.current_state
-        
         if not self.current_state:
             self.current_state = content
-        
+            
         self.manager.clear()
-        
         self.manager.input_many([
             ("system", self.instruct),
             ("user",  self.current_state),
             ("user", content)
             ])
-
-        # 50% chance held prompt replaced by current one
         if random.random() > 0.5:
-            self.current_state = content
-                            
-        self.call_llm(self.manager.array, previous_state, content)
-            
-    def call_llm(self, conversation, previous_state, content):
-        try:
-            instance = LLMInterface()
-            response = instance.get_response(conversation)
-            self.deal_with_response(response)
-        except Exception as e:
-            logging.error(f"During LLM interaction: {e}")
+            self.current_state = content   
             
     def deal_with_response(self, response):
         self.single_response(response, self.file_num)
@@ -93,11 +108,9 @@ class Generate:
 
     def single_response(self, response, name):
         response_content = response.content if response else ""
-        
         self.manager.input("assistant", response_content)
         self.manager.print()
         
-        commands.save_json(f"{self.output_path}/{name}", response_content)
-
         source = os.path.join(self.output_path, "source")
         commands.save_json(f"{source}/{name}", self.manager)
+        commands.save_json(f"{self.output_path}/{name}", response_content)

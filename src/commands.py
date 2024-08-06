@@ -12,7 +12,7 @@ class SaveManager:
             os.makedirs(save_path)
         
             # Define the template path and the initial turn directory
-            template_path = "saves/startTemplate"
+            template_path = "domains/testing/starting_data/StartTemplate"
             initial_turn_path = os.path.join(save_path, "start")
         
             # Copy the template contents to the initial turn directory

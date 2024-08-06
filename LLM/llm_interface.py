@@ -1,5 +1,5 @@
-from src.openai_client import OpenAIClient
-from src.huggingface_client import HuggingFaceClient
+from LLM.openai_client import OpenAIClient
+from LLM.huggingface_client import HuggingFaceClient
 from src.settings_manager import settings_manager
 
 class LLMInterface:

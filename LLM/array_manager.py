@@ -1,3 +1,5 @@
+import src.commands as commands
+import os
 import logging
 logging.basicConfig(level=logging.INFO)
 
@@ -19,3 +21,9 @@ class ArrayManager:
     def print(self):
         for person, message in self.array:
             logging.info(f"\n {person}: {message}\n")
+
+    def save_array(self, folder, name):
+        output = os.path.join(folder, name)
+        commands.save_json(output, self.array)
+        
+        

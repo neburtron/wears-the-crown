@@ -1,3 +1,2 @@
 openai==1.14.3
-huggingface_hub
-tkinter
+huggingface_hub==0.24.5

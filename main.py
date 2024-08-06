@@ -1,8 +1,10 @@
+import importlib
+import json
+
 import src.settings_manager as settings
 from src.commands import SaveManager
 import src.commands as commands
 import src.terminal_stuff as terminal
-from domains.testing.main import run as testing
 
 
 def main():
@@ -22,15 +24,15 @@ def llm_query():
 def domain_menu():
     domains = commands.list("domains")
     domain_selection = terminal.list_choices(domains, None, "Domains: ", "Select one from above.", False)
-    
-    if domain_selection == testing:
-        instance = testing(saves_menu())  # Assuming the core module has a run function
-    
+    module = importlib.import_module(f"domains.{domain_selection}.main")
+    domain_function = getattr(module, "run")
+    domain_function(saves_menu())
+        
 def saves_menu():
     try:
         save_manager = SaveManager()
         saves = save_manager.list()
-        save = terminal.choice(saves, "Available Saves:", "Enter the name of the save to load or create", False)
+        save = terminal.choice(saves, "Available Saves:", "Enter the name of the save to load or create", True)
         if save in saves:
             print(f"Loading save: {save}")
             return(save)

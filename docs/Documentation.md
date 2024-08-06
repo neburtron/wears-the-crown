@@ -1,4 +1,4 @@
-# Core structure of project:
+# Core structure of project
 
 I am in the process of rewriting this project and making the core framework actually a framework.
 
@@ -10,9 +10,8 @@ there are several parts to the framework, here's how I'm structuring it:
 
 Front end stuff (GUIs) is it's own chunk, I'm not focusing on it yet because I don't want to, but the stuff I've already built is getting reworked. Most stuff is gonna start off in the terminal, but I'm going for modularity, and I'm focusing on this project again.
 
-Calling LLMs is what I'd consider the back end stuff. This is again, not that big of a thing. It's gonna take a while to do, but I could get it done in under a week. 
+Calling LLMs is what I'd consider the back end stuff. This is again, not that big of a thing. It's gonna take a while to do, but I could get it done in under a week.
 
 Then there's commands the LLM can issue, scripts that do things W the LLMs + commands, and domains that are in charge of how save data is structured + putting the scripts together to make a working game. This is the modular part that I want to be accessible.
 
 Structurally that's how I want things to work. Things are going to be majorly restructured a bunch of times moving forwards, but I've decided this is probably my best bet for structuring this project
-
