@@ -3,28 +3,35 @@ import logging
 import random
 from src.llm_interface import LLMInterface
 import src.commands as commands
+from src.array_manager import ArrayManager
 
 logging.basicConfig(level=logging.INFO)
-
 class TurnedGenerate:
-        
-    def __init__(self, run_for_turns, directory, source, prompt):
+    def __init__(self, run_for_turns, directory, source, prompt, turn, point):
         self.run_for_turns = run_for_turns
         self.source = source
         self.directory = directory
         self.prompt = prompt
+        self.turn = turn
+        self.point = point
 
         if not os.path.exists(self.source):
             raise FileNotFoundError(f"Save path '{self.source}' does not exist.")
         
     def main(self):
-        for turn in range(self.run_for_turns):
-            last_turn_path = self.source if turn == 0 else os.path.join(self.directory, str(turn) )
-            next_turn_path = os.path.join(self.directory, str(turn + 1))            
+        for current_turn in range(self.run_for_turns):
+            last_turn_path = self.source if self.turn == 0 else os.path.join(self.directory, str(self.turn))
+            next_turn_path = os.path.join(self.directory, str(self.turn + 1))
             
             generate = Generate(source=self.source, prompt=self.prompt, directory=self.directory)
-            generate.manage_items(last_turn_path, next_turn_path)    
+            generate.manage_items(last_turn_path, next_turn_path)
 
+    def save_state(self):
+        state = {
+            "turn": self.turn,
+            "point": self.point
+        }
+        commands.save_json(f"{self.directory}/state.json", state)
 class Generate:
     
     def __init__(self, directory, source, prompt):
@@ -33,6 +40,7 @@ class Generate:
         self.instruct = commands.read_txt(f"prompts/{prompt}.txt")
         self.source = source
         self.directory = directory
+        self.manager = ArrayManager()
         
         if not os.path.exists(self.source):
             raise FileNotFoundError(f"Error: Data source path '{self.source}' does not exist.")
@@ -56,45 +64,40 @@ class Generate:
         
         if not self.current_state:
             self.current_state = content
-            
-        conversation = [
-            {"role": "system", "content": self.instruct},
-            {"role": "user", "content": self.current_state},
-            {"role": "user", "content": content}
-        ]
+        
+        self.manager.clear()
+        
+        self.manager.input_many([
+            ("system", self.instruct),
+            ("user",  self.current_state),
+            ("user", content)
+            ])
 
         # 50% chance held prompt replaced by current one
         if random.random() > 0.5:
             self.current_state = content
+                            
+        self.call_llm(self.manager.array, previous_state, content)
             
-        logging.info(f"\n\nSystem: {self.instruct}\n\n\nUser1: {self.current_state}\n\nUser2: {content}\n\n")
-        
+    def call_llm(self, conversation, previous_state, content):
         try:
             instance = LLMInterface()
             response = instance.get_response(conversation)
-            self.deal_with_response(response, previous_state, content)
+            self.deal_with_response(response)
         except Exception as e:
             logging.error(f"During LLM interaction: {e}")
             
-    def deal_with_response(self, response, previous_state, current_content):
-        
-        logging.info(f"\nResponse: {response}\n")
-
-        response_content = response.content if response else ""
-
-        # Save raw output 
-        save_response(self.output_path, response_content, self.file_num)
-
-        # Save raw output + inputs
-        source = os.path.join(self.output_path, "source")
-        os.makedirs(source, exist_ok=True)
-                
-        combined_content = f"{previous_state}\n\n{current_content}\n\n\n\n\n{response_content}\n"
-        save_response(source, combined_content, self.file_num)        
+    def deal_with_response(self, response):
+        self.single_response(response, self.file_num)
         self.file_num += 1
 
-def save_response(output_path, response, file_name):
-    os.makedirs(output_path, exist_ok=True)
-    file_path = os.path.join(output_path, f"{file_name}.txt")    
-    commands.save_txt(file_path, response)
-    
+    def single_response(self, response, name):
+        response_content = response.content if response else ""
+        
+        self.manager.input("assistant", response_content)
+        self.manager.print()
+        
+        commands.save_json(f"{self.output_path}/{name}", response_content)
+
+        source = os.path.join(self.output_path, "source")
+        commands.save_json(f"{source}/{name}", self.manager)

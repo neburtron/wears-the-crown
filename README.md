@@ -33,6 +33,24 @@ Other changes include:
 - Fixed the last_tab_index spelling mistake in llm_interface so it'd stop giving that error
 - Changed thing var to save in main.py because thing's not a good name
 
+Update 4: not interesting to read about backend stuff
+
+Added src folder + did some rework of stuff directly working W LLM APIs
+Smaller changes
+Doesn't really matter, no one's using these early dev versions.
+
+Update 5: The one I haven't commited yet
+
+Bigger one, worked on this for most of today.
+
+Got rid of playground + replaced W start of domains
+Played with generation.py a bit (not staying as it is for any amount of time)
+Modularized a bunch
+I also wrote some stuff in docs/documentation
+
+This is a pretty substantial update, the only reason this is as short as it is, is because I don't want to go into more detail for the "modularized a bunch" point. Non-existant fans, I've made a ton of progress and I'm not slowing down, mark my words, this will be something by the end of August. School starts up again, so that's kinda the cut off point / boundry of uncertainty. I'll still work on it to be clear, but school's a thing.
+
+
 ## Development Plans
 
 ### Overview

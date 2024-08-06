@@ -16,7 +16,3 @@ class OpenAIClient:
             temperature=self.temperature,
         )
         return completion.choices[0].message
-    
-
-        
-    

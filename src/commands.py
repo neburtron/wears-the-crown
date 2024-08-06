@@ -2,7 +2,10 @@ import os
 import json
 import shutil
 
+# NOTE - un-class save manager or generalize, I needed the list function for domains + made a copy below.
+
 class SaveManager:
+    
     def create(self, save_name):
         try:
             save_path = f"saves/{save_name}"
@@ -15,10 +18,11 @@ class SaveManager:
             # Copy the template contents to the initial turn directory
             if os.path.exists(template_path):
                 shutil.copytree(template_path, initial_turn_path)
+                save_json(f"{save_path}/state.json", [{"turn":0}, {"point":0}])
             else:
                 print(f"Template path '{template_path}' does not exist.")
                 return "Template Not Found"
-        
+
             print("\nSave Creation Success!\n")
             return "Success"
         except Exception as e:
@@ -47,6 +51,23 @@ class SaveManager:
             print(e)
             
         return folder_names
+
+def list(directory_path):
+    folder_names = []
+    if not os.path.exists(directory_path):
+        print(f"Error: Domain directory does not exist.")
+    try:
+        items = os.listdir(directory_path)
+        for item in items:
+            item_path = os.path.join(directory_path, item)
+            if os.path.isdir(item_path):
+                folder_names.append(item)
+                
+    except OSError as e:
+        print(f"Error: Unable to list contents of directory '{directory_path}'. ")    
+        print(e)
+        
+    return folder_names
     
 def save_txt(file_name, content):
     try:
