@@ -101,9 +101,3 @@ class settings_manager():
         index_file = os.path.join(self.folder, "last_tab_index.txt")
         with open(index_file, "w") as file:
             file.write(str(index))
-            
-            
-
-if __name__ == "__main__":
-    tabs = {"OpenAI": "OpenAI Settings", "HuggingFace": "Hugging Face Settings"}
-    run_llm_settings(tabs, "./settings")

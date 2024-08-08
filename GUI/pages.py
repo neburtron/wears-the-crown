@@ -3,11 +3,10 @@ import os
 import src.commands as commands
 
 class Page(tk.Frame):
-    def __init__(self, parent, manager, create_save_callback=None, start_game_callback=None, return_save_callback=None):
+    def __init__(self, parent, manager, create_save_callback, return_save_callback):
         super().__init__(parent)
         self.manager = manager
         self.create_save_callback = create_save_callback
-        self.start_game_callback = start_game_callback
         self.return_save_callback = return_save_callback
         self.pack(fill="both", expand=True)
 
@@ -31,7 +30,7 @@ class Page(tk.Frame):
 
 class StartPage(Page):
     def __init__(self, parent, manager, create_save_callback=None, start_game_callback=None, return_save_callback=None):
-        super().__init__(parent, manager, create_save_callback, start_game_callback, return_save_callback)
+        super().__init__(parent, manager, create_save_callback, start_game_callback)
         self.create_label("Main Menu")
         self.create_buttons()
 
@@ -41,7 +40,7 @@ class StartPage(Page):
 
 class LLMSettingsPage(Page):
     def __init__(self, parent, manager, create_save_callback=None, start_game_callback=None, return_save_callback=None):
-        super().__init__(parent, manager, create_save_callback, start_game_callback, return_save_callback)
+        super().__init__(parent, manager, create_save_callback, start_game_callback)
         self.create_label("LLM Settings")
         self.create_button("Back", self.on_back)
 
@@ -68,28 +67,36 @@ class SaveSelectionPage(Page):
         except FileNotFoundError:
             print("Saves directory not found.")
             return []
-
+    def return_save(self, save):
+        self.return_save_callback(save)
+        
     def on_submit(self):
         save_name = self.save_name_entry.get().strip()
-        if save_name:
-            if save_name in self.get_saves():
-                self.create_save_callback(save_name, existing=True)
-            else:
-                self.manager.show_frame("DomainSelectionPage")
+        if not save_name:
+            print("Save name cannot be empty.")
+            return
+
+        if any(char in save_name for char in r'\/:*?"<>|'):
+            print("Save name contains invalid characters.")
+            return
+
+        self.return_save(save_name)
+        self.manager.show_frame("DomainSelectionPage")
 
     def on_back(self):
         self.manager.show_frame("StartPage")
 
     def on_select(self, event):
         selected_idx = self.listbox.curselection()
+        
         if selected_idx:
             save_name = self.listbox.get(selected_idx[0])
-            self.manager.show_frame("DomainSelectionPage", save_name)
+            self.return_save(save_name)
+            self.manager.show_frame("DomainSelectionPage")
 
 class DomainSelectionPage(Page):
-    def __init__(self, save_name, parent, manager, create_save_callback, return_save_callback=None):
+    def __init__(self, parent, manager, create_save_callback, return_save_callback=None):
         super().__init__(parent, manager, create_save_callback, return_save_callback)
-        self.save_name = save_name
         self.create_label("Select Domain")
         self.listbox = self.create_listbox([], self.on_select)
         self.create_button("Back", self.on_back)
@@ -105,7 +112,7 @@ class DomainSelectionPage(Page):
         selected_idx = self.listbox.curselection()
         if selected_idx:
             selected_domain = self.listbox.get(selected_idx[0])
-            self.create_save_callback(save_name, selected_domain, existing=False)
+            self.create_save_callback(selected_domain)
 
     def on_back(self):
         self.manager.show_frame("StartPage")

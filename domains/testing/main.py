@@ -1,23 +1,3 @@
-"""
-Working on modularity / the framework of it all + making this usable.
-
-This used to be hardcoded, now it's a step towards plug and play
-
-Domains implementation is a WIP, project root dir main.py is going to be changed when I'm not exhausted.
-
-structure / whatever:
-----------------------
-Starting conditions folder W txt files in it
-Special cycles folder - maybe
-terminal_interface script - handles user interface / the thing that handles the order things are called in
-
-main.py
-    - class
-    - called by a UI script
-    - gets cycles from folder in domain / one in cycles tab
-    - runs whatever processes
-    - 
-"""
 import os
 import logging
 from scripts.generation import TurnedGenerate
@@ -38,7 +18,7 @@ class run:
         
     def main(self):
         try:
-            position = commands.load_json(f"{self.save}/state.json")
+            position = commands.load_json(f"saves/{self.save}/state.json")
             if position is None:
                 raise ValueError("Failed to load position from state.json")
             

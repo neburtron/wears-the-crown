@@ -1,11 +1,14 @@
-from operator import is_
 import os
 import logging
-# Make new script for this one + go back to first later / just delete it
-import scripts.simple as simple
+import scripts.second as second
 import src.commands as commands
 
 logging.basicConfig(level=logging.INFO)
+
+def get_input(preface):
+    thing = input(f"\n{preface}: ")
+    print()
+    return thing
 
 class run:
     
@@ -20,17 +23,18 @@ class run:
         
     def main(self):
         try:
-            position = commands.load_json(f"{self.save}/state.json")
+            position = commands.load_json(f"saves/{self.save}/state.json")
             if position is None:
                 raise ValueError("Failed to load position from state.json")
             
-            self.generate_directory = os.path.join("saves", self.save, "testing")
+            self.generate_directory = os.path.join("saves", self.save, "logs")
             
-            if self.config.turn == 0 or not os.path.exists(self.generate_directory):
+            if os.path.exists(self.generate_directory):
+                commands.create_directory(self.generate_directory)
+                is_turn_0 = False
+            else:
                 commands.create_directory(self.generate_directory)
                 is_turn_0 = True
-            else:
-                is_turn_0 = False
             
             turns = self.config.turn_count - self.config.turn
             logging.info(f"Starting generation process with {turns} turns.")
@@ -42,20 +46,60 @@ class run:
     def turns(self, turns, is_turn_0):
         for turn in turns:   
             if is_turn_0:
-                self.turn(turn, self.config.starting_data)
+                turn.run(turn, self.config.starting_data)
                 is_turn_0 = False
             else:
-                self.turn(turn, self.generate_directory )
+                last_turn = turn - 1
+                if os.path.exists(os.path.join(self.generate_directory, last_turn)):
+                    turn.run(turn, 
+                             os.path.join(self.generate_directory, last_turn),
+                             os.path.join(self.generate_directory),
+                             self.config,
+                             self.details
+                             )
+                else:
+                    print("error, save data corruption.")
+
+class turn:
+
+    def run(self, turn, source, root, config, details):
+        self.config = config
+        self.details = details
+        
+        self.setup_turn(turn, source, os.path.join(root, turn))
+        instructions = os.path.join(root, details.get("instructions"))
+        task = commands.load_json(instructions)
+        self.generate(task)
+        
+        files = os.listdir(source)
+        if os.path.exists(files):
+            commands.load_json(os.path.join(root, "") )
             
-    def turn(self, turn, start_folder):
-        thing = []
-        i = 0
+        else:
+            return "Error, starting data not there"
         
-        files = os.listdir(start_folder)
         
-        for file in files:
-            thing.append({file, os.path.join(self.generate_directory, turn), f"{i}.txt", } )
-            
-            i += 1
+    def setup_turn(self, turn, source, path):
+        os.mkdir(os.path.join(path, turn))
+        # File structure for output / info storage setup
         
-        simple.generate_many(files)
+        
+    def generate(self, task):
+        return
+        # will call self.hand_off for all the different types of stuff
+        
+        
+    def hand_off(self, items, operation):
+        """
+        The idea is, for each opperation type, go through the list + feed to script
+        I didn't write the script, this domain's a WIP. 
+        """
+        
+        if operation == "agent":
+            for item in operation:
+                second.agent(item, task)
+        
+        elif operation == "event":
+            for item in operation:
+                second.event(item, task.get(item))
+        
