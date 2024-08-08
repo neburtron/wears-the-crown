@@ -1,6 +1,6 @@
 from LLM.openai_client import OpenAIClient
 from LLM.huggingface_client import HuggingFaceClient
-from src.settings_manager import settings_manager
+from GUI.settings_manager import settings_manager
 
 class LLMInterface:
     def __init__(self):

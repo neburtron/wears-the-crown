@@ -32,6 +32,7 @@ class settings_app:
             self.frames[name] = frame
             
             settings_data = self.backend.get_settings(name.lower())
+            
             self.create_settings_widgets(frame, settings_data, self.tabs[name])
         
         last_tab_index = self.backend.get_last_tab_index()

@@ -10,8 +10,6 @@ Turned Generate Class
 
 
 
-
-
 Generate Class
 --------------
 
