@@ -6,9 +6,9 @@ import scripts.simple as simple
 # structure of scripts here run by domain scripts there though, so I am.
 
 
-def agent():
+def agent(item, task):
     return
     
-def event():
+def event(item, task):
     return
 

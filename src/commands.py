@@ -1,7 +1,6 @@
 import os
 import json
 
-
 def list(directory_path):
     # get list of folders in given directory
     folder_names = []

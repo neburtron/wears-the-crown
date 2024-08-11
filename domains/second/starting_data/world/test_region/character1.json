@@ -1,0 +1,40 @@
+{
+  "name": "test_character",
+  "personality_traits": [
+    {"courage": 100},
+    {"loyalty" : 100},
+    {"reliability": 100},
+    {"greed": 100}
+  ],
+
+  "owned_items": [
+    "sword", [
+        {"location": "test_region"},
+        {"value": 100},
+        {"description": "description"},
+        {"last position desc": "hidden under the floorboards at character farm"}
+
+    ],
+    "character farm", [
+        {"location": "test_region"},
+        {"value": 500000},
+        {"description": "description"},
+        {"last position desc": "The biggest building in test region, located at the center of town."}
+    ]
+
+  ],
+  "age": 25,
+  "ideals": [
+    "justice",
+    "honor"
+  ],
+  "goals": [
+    "to defeat the evil dragon",
+    "to protect the innocent"
+  ],
+  "plan": "to become a knight",
+  "memory_log": [
+
+
+  ]
+}

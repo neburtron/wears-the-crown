@@ -1,7 +1,7 @@
 import os
 import logging
-import scripts.second as second
 import src.commands as commands
+from domains.second.run_turn import Turn
 
 logging.basicConfig(level=logging.INFO)
 
@@ -13,13 +13,13 @@ def get_input(preface):
 class run:
     
     def __init__(self, save):
-        self.load_settings()
         self.save = save
+        self.load_settings()
         self.main()
 
     def load_settings(self):
-        self.config = commands.load_json
-        self.details = commands.load_json        
+        self.config = commands.load_json("domains/second/config.json")
+        self.details = commands.load_json("domains/second/details.json")    
         
     def main(self):
         try:
@@ -29,77 +29,31 @@ class run:
             
             self.generate_directory = os.path.join("saves", self.save, "logs")
             
-            if os.path.exists(self.generate_directory):
-                commands.create_directory(self.generate_directory)
-                is_turn_0 = False
-            else:
+            if not os.path.exists(self.generate_directory):
                 commands.create_directory(self.generate_directory)
                 is_turn_0 = True
+            else:
+                commands.create_directory(self.generate_directory)
+                is_turn_0 = False
             
-            turns = self.config.turn_count - self.config.turn
-            logging.info(f"Starting generation process with {turns} turns.")
-            self.turns(turns, is_turn_0)
+            turns_remaining = self.config['turn_count'] - self.config['turn']
+            logging.info(f"Starting generation process with {turns_remaining} turns.")
+            self.run_turns(turns_remaining, is_turn_0)
             
         except Exception as e:
             logging.error(f"Error during generation process: {e}")
             
-    def turns(self, turns, is_turn_0):
-        for turn in turns:   
+    def run_turns(self, turns, is_turn_0):
+        for current_turn in range(turns):   
             if is_turn_0:
-                turn.run(turn, self.config.starting_data)
+                turn = Turn(current_turn, "domains/second/starting_data", self.generate_directory, self.config['starting_data'], self.config, self.details)
                 is_turn_0 = False
             else:
-                last_turn = turn - 1
-                if os.path.exists(os.path.join(self.generate_directory, last_turn)):
-                    turn.run(turn, 
-                             os.path.join(self.generate_directory, last_turn),
-                             os.path.join(self.generate_directory),
-                             self.config,
-                             self.details
-                             )
+                last_turn = current_turn - 1
+                last_turn_path = os.path.join(self.generate_directory, f"turn_{last_turn}.json")
+                
+                if os.path.exists(last_turn_path):
+                    turn = Turn(current_turn, last_turn_path, self.generate_directory, self.config, self.details)
                 else:
-                    print("error, save data corruption.")
-
-class turn:
-
-    def run(self, turn, source, root, config, details):
-        self.config = config
-        self.details = details
-        
-        self.setup_turn(turn, source, os.path.join(root, turn))
-        instructions = os.path.join(root, details.get("instructions"))
-        task = commands.load_json(instructions)
-        self.generate(task)
-        
-        files = os.listdir(source)
-        if os.path.exists(files):
-            commands.load_json(os.path.join(root, "") )
-            
-        else:
-            return "Error, starting data not there"
-        
-        
-    def setup_turn(self, turn, source, path):
-        os.mkdir(os.path.join(path, turn))
-        # File structure for output / info storage setup
-        
-        
-    def generate(self, task):
-        return
-        # will call self.hand_off for all the different types of stuff
-        
-        
-    def hand_off(self, items, operation):
-        """
-        The idea is, for each opperation type, go through the list + feed to script
-        I didn't write the script, this domain's a WIP. 
-        """
-        
-        if operation == "agent":
-            for item in operation:
-                second.agent(item, task)
-        
-        elif operation == "event":
-            for item in operation:
-                second.event(item, task.get(item))
-        
+                    logging.error("Error, save data corruption.")
+                    break
