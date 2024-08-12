@@ -28,4 +28,3 @@ class LLMInterface:
             print("No client initialized.")
             return None
         
-        

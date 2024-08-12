@@ -46,7 +46,7 @@ class run:
     def run_turns(self, turns, is_turn_0):
         for current_turn in range(turns):   
             if is_turn_0:
-                turn = Turn(current_turn, "domains/second/starting_data", self.generate_directory, self.config['starting_data'], self.config, self.details)
+                turn = Turn(current_turn, "domains/second/starting_data", self.generate_directory, self.config, self.details)
                 is_turn_0 = False
             else:
                 last_turn = current_turn - 1

@@ -1,47 +1,50 @@
 import os
 import src.commands as commands
-import scripts.second as second
+from domains.second.second import llm
 
 class Turn:
 
     def __init__(self, turn, source, root, config, details):
+        self.interface = llm(os.path.join(source, "prompts"))
         self.config = config
         self.details = details
+        self.turn = turn
         
-        turn_path = os.path.join(root, f"turn_{turn}")
-        self.setup_turn(turn, source, turn_path)
+        self.source = os.path.join(source, "world")
+        self.turn_path = os.path.join(root, f"turn_{turn}")
         
-        instructions = os.path.join(root, details.get("instructions"))
-        task = commands.load_json(instructions)
-        self.generate(task)
+        instructions = os.path.join(root, details.get("instructions"))        
+        self.setup_turn()
         
-        if os.path.exists(source):
-            files = os.listdir(source)
-            for file in files:
-                # Add logic to handle files if necessary
-                pass  # Placeholder for handling files
-        else:
-            return "Error, starting data not there"
-        
-        
-    def setup_turn(self, turn, source, path):
-        os.makedirs(path, exist_ok=True)
-        # Ensure the directory exists and handle setup logic here
-        
-        
-    def generate(self, task):
-        if not task:
-            return "No tasks found."
-        
-        for operation, items in task.items():
-            self.hand_off(items, operation)
-        
+    def setup_turn(self):
+        os.makedirs(self.turn_path, exist_ok=True)
+        for region in commands.list(self.source):
+            region_path = os.path.join(self.turn_path, region)
+            os.makedirs(region_path, exist_ok=True)
+            for thing in os.listdir(os.path.join(self.source, region)):
+                self.generate(thing, region_path)
+                
+    def generate(self, thing, path): 
+        prompt = commands.load_json(task)
+        output = self.hand_off(thing, prompt)
+        commands.save_json(output, os.path.join(path, thing))
         
     def hand_off(self, items, operation):
-        if operation == "agent":
+        if operation == "converse1":
             for item in items:
-                second.agent(item, self.config)
-        
-        elif operation == "event":
+                self.interface.converse1(item, self.config)
+        elif operation == "converse2":
             for item in items:
-                second.event(item, self.config.get(item))
+                self.interface.converse2(item, self.config.get(item))
+        elif operation == "interpret":
+            for item in items:
+                self.interface.interpret(item, self.config.get(item))
+        elif operation == "outcomes":
+            for item in items:
+                self.interface.outcomes(item, self.config.get(item))
+        elif operation == "plan":
+            for item in items:
+                self.interface.plan(item, self.config.get(item))
+        elif operation == "summarize":
+            for item in items:
+                self.interface.summarize(item, self.config.get(item))
