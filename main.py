@@ -34,25 +34,40 @@ class Main:
     def create_save(self, domain):
         self.save = self.save or "default_save_name"  # Ensure self.save is initialized
         self.run_domain(os.path.join("saves", self.save), domain)
-        
+            
     def run_domain(self, path, domain):
         if not os.path.exists(path):
             os.makedirs(path)
             template_path = f"domains/{domain}/starting_data/StartTemplate"
             initial_turn_path = os.path.join(path, "start")
+            
+            # Debugging output
+            print(f"Creating directories: {path}")
+            print(f"Template path: {template_path}")
+            print(f"Initial turn path: {initial_turn_path}")
+
             if os.path.exists(template_path):
                 shutil.copytree(template_path, initial_turn_path)
                 commands.save_json(os.path.join(path, "state.json"), {"domain": domain, "turn": 0})
             else:
                 print(f"Template path '{template_path}' does not exist.")
+        else:
+            print(f"Path '{path}' already exists.")
+
         try:
+            # Debugging output
+            print(f"Importing module: domains.{domain}.main")
+            
             module = importlib.import_module(f"domains.{domain}.main")
             domain_function = getattr(module, "run")
+
+            # Debugging output
+            print(f"Running domain function with save: {self.save}")
+            
             domain_function(self.save)
         except Exception as e:
             print(f"Error running Domain: {e}")
+
         
 if __name__ == "__main__":
     instance = Main()
-    
-    
