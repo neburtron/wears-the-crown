@@ -1,17 +1,45 @@
 # Core structure of project
 
-I am in the process of rewriting this project and making the core framework actually a framework.
+The goal of this project is to be a modular framework that can be used to make games that utilize LLMs for a type of game that doesn't really exist right now. There are several modules that I seperated funcitonality into.
 
-This project is not ready yet for anyone to just look at, if you want to know what's going on message me. I'm going to use this doc as a way to talk about the more general structure of this project because I think that's important.
+Actual functionality of this project is broken up into domains and scripts. Scripts are modular functionality that can be used across domains, domains are games made with the framework. They handle how scripts from both the scripts folder and ones that only work for that domain are called + the starting data and how that's interpreted.
 
-I want to make a game, that is the end goal, that is the thing that will get the most eyes, and I started this project because I wanted to play the type of game I am working towards. What I want is experemental. I don't know if people have made frameworks for LLMs like the thing I'm working on now or not, but regardless, I am focusing on making the back end as well built as I can not only to make the end product better, but also to open the doors for modding / a more community led whatever for this type of game.
+The goal of this project is combining LLMs and structure to make magic. Individual scripts are rather simple, domains should be the creative application of that simpler functionality.
 
-there are several parts to the framework, here's how I'm structuring it:
+## Modules
 
-Front end stuff (GUIs) is it's own chunk, I'm not focusing on it yet because I don't want to, but the stuff I've already built is getting reworked. Most stuff is gonna start off in the terminal, but I'm going for modularity, and I'm focusing on this project again.
+NOTE - I don't know what I'm doing and will figure out better file organization as I go.
 
-Calling LLMs is what I'd consider the back end stuff. This is again, not that big of a thing. It's gonna take a while to do, but I could get it done in under a week.
+### 1. SRC
 
-Then there's commands the LLM can issue, scripts that do things W the LLMs + commands, and domains that are in charge of how save data is structured + putting the scripts together to make a working game. This is the modular part that I want to be accessible.
+Basic commands that the whole project uses.
 
-Structurally that's how I want things to work. Things are going to be majorly restructured a bunch of times moving forwards, but I've decided this is probably my best bet for structuring this project
+Utils.py is currently the only script here, and it handles basic file management stuff.
+
+### 2. LLM
+
+The LLM module handles direct LLM interactions.
+
+LLM_Interface gets the selected LLM API, runs the corisponding script, and acts as the middleman for the rest of the project.
+
+HuggingFace_Client.py is a placeholder, I haven't gotten around to dealing with that API / fully utilizing OpenAI's.
+
+last_tab_index.py is used by the LLM settings screen in GUI/Pages, besides requiring one specific API to run your domain, I see no reason you'd need to worry about calling this script.
+
+### 3. game_stuff
+
+Game stuff stores general scripts that should be rather universal.
+
+Currently I've put one script there, conversation.py; a WIP script that handles basic chatbot functionaility + stores chatlogs + handles chat responses.
+
+### 4. scripts
+
+Scripts is for less universal funcitonality, that should still be modular + isn't nessisarally only useful for one domain.
+
+Empty for now, what goes here + what goes in game_stuff is arbitrary and will change as the foundations of this project continue to solidify.
+
+### 5. GUI
+
+Basic GUI for main menu. It's shit. Uses Tkinter, and handles settings, making saves, selecting saves, and domains. I don't have anything for the game itself, I'm gonna likely keep the terminal tests going for a little bit.
+
+Somewhat modular, has a set of pages that you can swap between, and it includes old tabbed settings management script functionality I added before the main menu GUI.

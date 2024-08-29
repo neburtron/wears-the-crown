@@ -62,6 +62,8 @@ python -m unittest discover tests
 
 If you've added new functionality, please write corresponding tests.
 
+Note - I haven't yet setup tests properly, I should, but for now ignore this point.
+
 ### 7. Push Your Changes
 
 Push your changes to your forked repository:
@@ -81,7 +83,7 @@ Create a pull request to the main repository:
 
 ## Contact
 
-If you have any questions or need further assistance, feel free to contact the project maintainer, MuteMaroonWorm:
+If you have any questions or need further assistance, feel free to contact me, MuteMaroonWorm, the guy who started + maintains this project:
 - GitHub: [Neburtron](https://github.com/neburtron)
 - Email: mutemaroonworm@gmail.com
 

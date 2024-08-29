@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import os
-import shutil
+import LLM.last_tab_index as LT
 import src.utils as utils
 
 import logging
@@ -64,7 +64,7 @@ class LLMSettingsPage(Page):
         
         self.create_button("Back", self.on_back)
         
-        last_tab_index = utils.get_last_tab_index("./settings")
+        last_tab_index = LT.get_last_tab_index("./settings")
         self.notebook.select(last_tab_index)
         
     def create_openai_tab(self):
@@ -85,7 +85,7 @@ class LLMSettingsPage(Page):
         
     def on_tab_changed(self, event):
         selected_tab_index = self.notebook.index("current")
-        utils.save_last_tab_index("./settings", selected_tab_index)
+        LT.save_last_tab_index("./settings", selected_tab_index)
         
     def create_settings_widgets(self, frame, model_settings, settings_file):
         entry_vars = {}

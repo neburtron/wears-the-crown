@@ -1,5 +1,5 @@
 import src.utils as utils
-import src.conversation as conversation
+import game_stuff.conversation as conversation
 import os
 import json
 

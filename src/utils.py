@@ -59,24 +59,3 @@ def create_directory(directory):
             os.makedirs(directory)
         except OSError as e:
             print(f"Error creating directory '{directory}': {e}")
-            
-def get_last_tab_index(folder):
-    index_file = os.path.join(folder, "last_tab_index.txt")
-    if os.path.exists(index_file):
-        with open(index_file, 'r') as file:
-            index = int(file.read().strip())
-            return index
-    return 0
-
-def save_last_tab_index(folder, index):
-    index_file = os.path.join(folder, "last_tab_index.txt")
-    with open(index_file, 'w') as file:
-        file.write(str(index))
-
-def get_settings(self, name):
-    settings_file = os.path.join(self.folder, f"{name}.json")
-    if not os.path.exists(settings_file):
-        template_file = os.path.join(self.folder, "templates", f"{name}.json")
-        os.makedirs(os.path.dirname(settings_file), exist_ok=True)
-        shutil.copyfile(template_file, settings_file)
-    return load_json(settings_file)
