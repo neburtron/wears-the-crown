@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import os
 import shutil
-import src.commands as commands
+import src.utils as utils
 
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -64,7 +64,7 @@ class LLMSettingsPage(Page):
         
         self.create_button("Back", self.on_back)
         
-        last_tab_index = self.get_last_tab_index()
+        last_tab_index = utils.get_last_tab_index("./settings")
         self.notebook.select(last_tab_index)
         
     def create_openai_tab(self):
@@ -72,7 +72,7 @@ class LLMSettingsPage(Page):
         self.notebook.add(openai_frame, text="OpenAI")
         
         settings_file = os.path.join(self.folder, "openai.json")
-        settings = commands.load_json(settings_file)
+        settings = utils.load_json(settings_file)
         self.create_settings_widgets(openai_frame, settings, settings_file)
 
     def create_huggingface_tab(self):
@@ -80,28 +80,13 @@ class LLMSettingsPage(Page):
         self.notebook.add(huggingface_frame, text="HuggingFace")
                 
         settings_file = os.path.join(self.folder, "huggingface.json")
-        settings = commands.load_json(settings_file)
+        settings = utils.load_json(settings_file)
         self.create_settings_widgets(huggingface_frame, settings, settings_file)
         
-
     def on_tab_changed(self, event):
         selected_tab_index = self.notebook.index("current")
-        self.save_last_tab_index(selected_tab_index)
+        utils.save_last_tab_index("./settings", selected_tab_index)
         
-    
-    def get_settings(self, name):
-        settings_file = os.path.join(self.folder, f"{name}.json")
-        if not os.path.exists(settings_file):
-            template_file = os.path.join(self.folder, "templates", f"{name}.json")
-            os.makedirs(os.path.dirname(settings_file), exist_ok=True)
-            shutil.copyfile(template_file, settings_file)
-        return commands.load_json(settings_file)
-
-    def save_last_tab_index(self, index):
-        index_file = os.path.join(self.folder, "last_tab_index.txt")
-        with open(index_file, "w") as file:
-            file.write(str(index))
-            
     def create_settings_widgets(self, frame, model_settings, settings_file):
         entry_vars = {}
         for setting, value in model_settings.items():
@@ -120,19 +105,10 @@ class LLMSettingsPage(Page):
     def save_settings(self, entry_vars, settings_file):
         settings_data = {setting: entry_var.get() for setting, entry_var in entry_vars.items()}
         try:
-            commands.save_json(settings_file, settings_data)
+            utils.save_json(settings_file, settings_data)
             logging.info(f"Settings saved to {settings_file}")
         except Exception as e:
             logging.error(f"Failed to save settings: {e}")
-            
-    def get_last_tab_index(self):
-        index_file = os.path.join(self.folder, "last_tab_index.txt")
-        if os.path.exists(index_file):
-            with open(index_file, "r") as file:
-                index = int(file.read().strip())
-                if index < self.notebook.index("end"):
-                    return index
-        return 0
     
     def on_back(self):
         self.manager.show_frame("StartPage")
@@ -193,7 +169,7 @@ class DomainSelectionPage(Page):
         self.update_domains()
         
     def update_domains(self):
-        domains = commands.list("domains")
+        domains = utils.list("domains")
         self.listbox.delete(0, tk.END)
         for domain in domains:
             self.listbox.insert(tk.END, domain)

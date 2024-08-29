@@ -1,6 +1,6 @@
 from LLM.openai_client import OpenAIClient
 from LLM.huggingface_client import HuggingFaceClient
-from GUI.settings_manager import settings_manager
+import src.utils as utils
 
 class LLMInterface:
     def __init__(self):
@@ -8,13 +8,13 @@ class LLMInterface:
         self.initialize_client()
 
     def initialize_client(self):
-        settings = settings_manager("./settings")
-        tab_index = settings.get_last_tab_index()
+        settings_folder = "./settings"
+        tab_index = utils.get_last_tab_index(settings_folder)        
         if tab_index == 0:
-            settings = settings.get_settings("OpenAI")
+            settings = utils.load_json(f"{settings_folder}/OpenAI")
             self.client = OpenAIClient(settings)
         elif tab_index == 1:
-            settings = settings.get_settings("HuggingFace")
+            settings = utils.load_json(f"{settings_folder}/HuggingFace")
             self.client = HuggingFaceClient(settings)
 
     def get_response(self, msgs):

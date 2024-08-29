@@ -1,4 +1,4 @@
-import src.commands as commands
+import src.utils as utils
 import os
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -24,6 +24,6 @@ class ArrayManager:
 
     def save_array(self, folder, name):
         output = os.path.join(folder, name)
-        commands.save_json(output, self.array)
+        utils.save_json(output, self.array)
         
         
