@@ -1,5 +1,5 @@
 import src.utils as utils
-from LLM.llm_interface import LLMInterface
+from llm.llm_interface import LLMInterface
 
 class talk:
     

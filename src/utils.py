@@ -1,6 +1,5 @@
 import os
 import json
-import shutil
 
 def list(directory_path):
     # get list of folders in given directory

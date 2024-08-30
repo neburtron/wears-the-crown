@@ -1,73 +1,11 @@
-import os
-import shutil
-import importlib
-import tkinter as tk
-
-from GUI.main_window import FrameManager
-import src.utils as utils
-
+from gui.main_gui import GuiManager
+from gui.save_creation_gui import StartGui
 class Main:
     def __init__(self):
-        self.changed_settings = False
-        self.domain = None   
-        self.save = None
-        self.root = tk.Tk()
-        
-        self.manager = FrameManager(self.root, "The Head that Wears the Crown")
-        self.manager.setup_frames(self.create_save, self.return_save)
-        self.manager.show_frame("StartPage")
-        self.root.mainloop()
-        
-    def return_save(self, save):
-        # Callback to store save name when selected
-        if save is not None:
-            self.save = save
-            if os.path.exists(os.path.join("saves", save)):
-                self.update_domain_from_save(save)
-            
-    def update_domain_from_save(self, save):
-        path = os.path.join("saves", save, "state.json")
-        settings = utils.load_json(path)
-        self.domain = settings.get("domain")
-        self.run_domain(os.path.dirname(path), self.domain)
-            
-    def create_save(self, domain):
-        self.save = self.save or "default_save_name"  # Ensure self.save is initialized
-        self.run_domain(os.path.join("saves", self.save), domain)
-            
-    def run_domain(self, path, domain):
-        if not os.path.exists(path):
-            os.makedirs(path)
-            template_path = f"domains/{domain}/starting_data/StartTemplate"
-            initial_turn_path = os.path.join(path, "start")
-            
-            # Debugging output
-            print(f"Creating directories: {path}")
-            print(f"Template path: {template_path}")
-            print(f"Initial turn path: {initial_turn_path}")
+        self.save_name = None
+        self.gui_manager = GuiManager()
+        self.start_gui = StartGui(self.gui_manager)  # Pass GuiManager to StartGui
+        self.gui_manager.start()
 
-            if os.path.exists(template_path):
-                shutil.copytree(template_path, initial_turn_path)
-                utils.save_json(os.path.join(path, "state.json"), {"domain": domain, "turn": 0})
-            else:
-                print(f"Template path '{template_path}' does not exist.")
-        else:
-            print(f"Path '{path}' already exists.")
-
-        try:
-            # Debugging output
-            print(f"Importing module: domains.{domain}.main")
-            
-            module = importlib.import_module(f"domains.{domain}.main")
-            domain_function = getattr(module, "run")
-
-            # Debugging output
-            print(f"Running domain function with save: {self.save}")
-            
-            domain_function(self.save)
-        except Exception as e:
-            print(f"Error running Domain: {e}")
-
-        
 if __name__ == "__main__":
-    instance = Main()
+    Main()

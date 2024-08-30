@@ -26,9 +26,9 @@ HuggingFace_Client.py is a placeholder, I haven't gotten around to dealing with 
 
 last_tab_index.py is used by the LLM settings screen in GUI/Pages, besides requiring one specific API to run your domain, I see no reason you'd need to worry about calling this script.
 
-### 3. game_stuff
+### 3. core
 
-Game stuff stores general scripts that should be rather universal.
+core stores general scripts that should be rather universal.
 
 Currently I've put one script there, conversation.py; a WIP script that handles basic chatbot functionaility + stores chatlogs + handles chat responses.
 

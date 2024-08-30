@@ -1,6 +1,6 @@
 {
-    "model": "model-identifier",
-    "temp": "0.7",
-    "api_key": "lm-studio",
-    "base_url": "http://localhost:1234/v1"
+    "model": "",
+    "temp": "",
+    "api_key": "",
+    "base_url": ""
 }

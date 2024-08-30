@@ -1,16 +1,13 @@
 import src.utils as utils
-import game_stuff.conversation as conversation
+import core.conversation as conversation
 import os
 import json
 
 
 class Run:
-    
     def __init__(self, save):
         self.save = os.path.join("saves", save)
-        config = utils.load_json("domains/prototype1/config.json")
-        details = utils.load_json("domains/prototype1/details.json")
-        
+        config = utils.load_json(f"{self.save}/start/config.json")
         self.turn = config.get("turn", None)  # Ensure a default value if "turn" is not found
         self.start_turn()
     

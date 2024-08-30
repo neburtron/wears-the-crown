@@ -1,7 +1,7 @@
-from LLM.openai_client import OpenAIClient
-from LLM.huggingface_client import HuggingFaceClient
+from llm.openai_client import OpenAIClient
+from llm.huggingface_client import HuggingFaceClient
 import src.utils as utils
-import LLM.last_tab_index as LT
+import llm.last_tab_index as LT
 
 class LLMInterface:
     def __init__(self):
