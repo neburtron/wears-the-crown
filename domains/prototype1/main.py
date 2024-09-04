@@ -3,7 +3,6 @@ import core.conversation as conversation
 import os
 import json
 
-
 class Run:
     def __init__(self, save):
         self.save = os.path.join("saves", save)
@@ -28,8 +27,6 @@ class Run:
     
     def start_turn(self):
         characters_folder = os.path.join(self.save, "now", "characters")
-        
         character_info = self.get_data(characters_folder)
         
-                
-        pass
+    

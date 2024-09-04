@@ -36,7 +36,10 @@ Currently I've put one script there, conversation.py; a WIP script that handles 
 
 Scripts is for less universal funcitonality, that should still be modular + isn't nessisarally only useful for one domain.
 
-Empty for now, what goes here + what goes in game_stuff is arbitrary and will change as the foundations of this project continue to solidify.
+data_storage.py
+contains info class
+
+Info class is a generic class in charge of handling simple lists, arrays, whatever, and stuff like that.
 
 ### 5. GUI
 

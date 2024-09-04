@@ -4,7 +4,7 @@ Right now, the plan is to work on making a simple prototype that runs for severa
 
 ## Readable
 
-I don't think this project is all that readable. I haven't written comments / docstrings, and I am not 100% happy with the way things are structured. I'll fix things as I think of ways to fix them, this has been a thing I've been working on since the beginning, and I did a full rewrite near the start of this month.
+I don't think this project is all that readable. I haven't written much for comments / docstrings, and I am not 100% happy with the way things are structured. I'll fix things as I think of ways to fix them, this has been a thing I've been working on since the beginning, and I did a full rewrite near the start of this month.
 
 ## prototype
 

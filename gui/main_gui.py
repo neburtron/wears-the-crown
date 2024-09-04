@@ -1,4 +1,3 @@
-from sys import maxsize
 import dearpygui.dearpygui as dpg
 from gui.llm_gui import *
 
@@ -20,4 +19,3 @@ class GuiManager:
         else:
             with dpg.window(label=window_name):
                 content_func()
-

@@ -1,7 +1,5 @@
 ---
-
 # The Head that Wears the Crown
-
 "The Head that Wears the Crown" is an ambitious project inspired by narrative-driven games like Dwarf Fortress, RimWorld, and Crusader Kings. It aims to create a dynamic story generator game with gameplay similar to "Sort the Court," where players make decisions each turn, influencing the simulated world powered by Language Learning Models (LLMs).
 
 ## Project Vision
@@ -12,11 +10,9 @@ This project started off simple, I wanted sort the court with a text box instead
 First I plan on working on setting up LLM integration, building frameworks to utilize them effectively without a lot of effort. Second I plan on figuring out what types of objects I want to simulate and setting them up how I want them to run. That second part is most of this project + the only reason I'm writing that part out is to signal that the actual gameplay front end bit that the Lord-Game prototype focused on is one of the last core sections I'm going to focus on. Probably. 
 
 ## Current Development
-
-As of now, I've stepped back from my previous prototype, Lord-Game, and decided to focus on the backend. Currently this project is focused on the underlying framework behind this project, having flexable systems that utilize LLMs, giving them input data, a prompt telling them what to do, and a set of commands, that outputs something usable. This is essential to the backend, which is the most pressing and ambitious part of this prototype.
+As of now, I've stepped back from my previous prototype, Lord-Game, and decided to focus on the backend. Currently this project is focused on the underlying framework behind this project. Right now I've got the absolute basics down. I've got a working GUI, a base to the LLM module, the way I want to handle different types of games figured out, basically everything but a working prototype and the logic / scripts they use to do work. None of it is good, but it's better than what I had and what I haven now is a lot more expandable and modular.
 
 ### Development Progression
-
 I started by taking old code from my lord-game project, and got the basic framework setup, nothing to comment on.
 
 First major step was the "Telephone" commit. Here I took more old code from lord-game, conversation.py's class, and just put it in and changed it to use old outputs, and it kinda freaked out. Got something working, and that was a good first proper step.
@@ -50,23 +46,18 @@ I also wrote some stuff in docs/documentation
 
 This is a pretty substantial update, the only reason this is as short as it is, is because I don't want to go into more detail for the "modularized a bunch" point. Non-existant fans, I've made a ton of progress and I'm not slowing down, mark my words, this will be something by the end of August. School starts up again, so that's kinda the cut off point / boundry of uncertainty. I'll still work on it to be clear, but school's a thing.
 
-
 ## Development Plans
 
 ### Overview
 Currently, this project is undergoing a full rewrite. The current plan is to build up incrimentally. If you want to help send me a message I'll help you out and get this project in a place where someone else could help meaningfully.
 
-PLANS.md is not currently in use, I'll try and write about whatever major changes I make, but I can't see any amount of people that could be reasonably considered "masses" looking at this project for a good while. Here I'll outline short term plans because I think it's useful for both myself and the later down the road doccumentation of this project.
+PLANS.md has some information about the direction I want this project to go in, but it isn't in depth, and doccumenting this project is gonna be shotty for a while longer.
 
 ### Next steps for Project
 
-I've decided to focus first on getting systems that enable LLMs to be useful for this project, second on simulating the world. The first two major commits I made were itterative generation LLM tests, and that's how things are going to continue for the time being.
+I have other stuff going on in my life and I don't know how active I'm gonna be on this project. That said, the current plan is to make a working, very very simple prototype, that forces me to develop some basic functionality and make the framework better. I have the most basic of stuff built, now I need to work on prototypes to help develop the internals that make this a useful framework.
 
-Next big step forward's gonna be taking the current build and generalizing it, taking the code I wrote for the telephone test and making it so it's no longer hard coded to be the way it is.
-
-From there, I plan on improving code, making new functions and classes, and making experements to see how well things are working and to have some experience + code to steal when I'm using the framework I've setup to make this super radical game.
-
-Other avenues might be coming up too. I have an artist I know and she said she might be willing to make some assets, so front end stuff might be revisited, and for the summer school coding class I was in a week or so ago as of writing this, I made a prototype for an idea that would work really well as the rough 2nd half to gameplay I came up with to deal W LLMs being slow. Something to do with with GOAP peasants and rewards. Did not get close to finishing it, if I revisit it I'm not taking anything but the idea from the old draft + doing that in godot or something and figuring some way to combine A and B.
+docs/PLANS has more on the first prototype idea I think I'm gonna go with.
 
 ## Getting Started
 
@@ -74,7 +65,7 @@ NOTE: This isn't a game, nothing works, don't bother going through these steps i
 
 ### Requirements
 
-- Access to LLM via OpenAI API (LM Studio let's you host a pseudo OpenAI server locally if you don't have money)
+- Access to LLM via OpenAI API (LM Studio let's you host a pseudo OpenAI server locally if you don't have money, Huggingface is not yet implemented properly)
 - Basic knowledge of Python and command-line operations.
 
 ### Installation Instructions
@@ -95,17 +86,17 @@ NOTE: This isn't a game, nothing works, don't bother going through these steps i
    ```bash
    python main.py
    ```
-   Note: this is not a game yet. You can not play it. Published versions are experements + WIP builds for core, underlying systems.
+   Note: I do not have a playable version, the vast majority of this project is setup and engine code, unless you wanna make something of your own with this, there's no point in running it.
 
 ## Contribution
 
-Send me a message if you're interested in this project. I've put a lot of time into it + learning how to code, and I'd be open to talking with you about it or setting something up for you to do. 
+I am currently working on doccumenting this project better and making the code I have better and hardly anyone has seen this project. If you're interested in talking / whatever send me a message, otherwise I'm gonna work on fixing this project into something that other people can understand and work with.
 
 ## License
 
 This project is licensed under the Unlicense, placing it in the public domain. For more details, see the [LICENSE](docs/LICENSE) file.
 
-I do not respect copyright laws or the profit motive. I am on the side of art, copyright laws are inherently antithetical to the foundational ideas of artistry. This is my project though. It is my vision, and that vision just so happens to include opening all the doors, with the final end goal being making a structure for a type of game I desperately want to be able to play in a million different variations, letting far more competent individuals take the next steps forwards. This is something I am working on myself. I am open to working with others, and so long as I think your additions aren't in the wrong direction, you can help with development. If I don't like the direction your additions are going in, it's nothing personal, I'm making a framework + a basic proof of concept that utilizes it, make your thing a mod / branch off from my thing, I'd push you to make it a mod so others can use what you made with stuff other people made together to make something even better, but you do you. Yeah. 
+I do not respect copyright laws or the profit motive. I am on the side of art, copyright laws are by design opposed to artistry. This is my project, I am the lead vision behind it, but I resend my monopolistic hold on the pieces that make it up and their design. It is my vision, and that vision just so happens to include opening all the doors of the structure I intend to build. If you want to help by all means, but it is my project and I'm in charge, fork it if you want to go in another direction, more art is better than less art.
 
 I am on the side of art is a quote I got from [CJ the X](https://www.youtube.com/@cjthex), they're responsible for my current philosophy on art, they are cool. 
 
@@ -116,10 +107,8 @@ Creator, Lead Designer, and only Maintainer: MuteMaroonWorm (formerly / AKA Nebu
 - Email: mutemaroonworm@gmail.com
 - DeviantArt: [MuteMAR](https://www.deviantart.com/mutemar)
 
-
 ## Inspiration
 
 This project draws significant inspiration from "Sort the Court", an indie game known for its narrative-driven gameplay. To experience it, visit [Sort the Court on Itch.io](https://graebor.itch.io/sort-the-court).
-
 
 ---
