@@ -2,11 +2,11 @@
 Basic commands for managing files used across the project
 
 List(directory)
-    lists all folders in given directory
+    return list of folders in given directory
 
 Save_txt + save_json
     Save txt / json file W given name + contents
-    
+
 read_txt + load_json
     Get contents of given txt / json file
     
@@ -16,12 +16,10 @@ create_directory
 file_name includes the directories, everything works from the root directory
 """
 
-
 import os
 import json
 
 def list(directory_path):
-    # get list of folders in given directory
     folder_names = []
     if not os.path.exists(directory_path):
         print(f"Error: Domain directory does not exist.")

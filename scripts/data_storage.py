@@ -22,10 +22,8 @@ Methods:
 - update_list(key, value): Adds a value to a list within the data, creating the list if it doesn't exist.
 - remove_from_list(key, value): Removes a value from a list within the data.
 """
-
 import src.utils as utils
 import os
-
 
 class Info:
     def __init__(self, name):
@@ -67,8 +65,7 @@ class Info:
         
         directory = os.path.join(self.savedir, str(turn), location, f"{name}.json") if turn else os.path.join(self.savedir, location, f"{name}.json")
         utils.save_json(directory, self.data)
-            utils.save_json(location, self.data)
-
+        
     def update_list(self, key, value):
         """
         Generalized method to update lists within the data.

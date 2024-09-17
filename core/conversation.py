@@ -24,6 +24,3 @@ class talk:
         
     def get_response(self):
         response = self.llm.get_response(self.array)
-        
-        
-    

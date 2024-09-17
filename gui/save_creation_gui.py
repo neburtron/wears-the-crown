@@ -1,5 +1,5 @@
 import dearpygui.dearpygui as dpg
-from domain_manager import DomainManager
+from src.domain_manager import DomainManager
 import src.utils as utils
 from gui.llm_gui import *
 from gui.llm_gui import LLMSettingsPage
