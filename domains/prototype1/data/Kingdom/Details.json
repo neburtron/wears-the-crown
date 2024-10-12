@@ -1,0 +1,16 @@
+{
+
+    "Core Values": {
+        "gold": 10,
+        "population": 10,
+        "prosperity": 10,
+        "wealth_inequality": 10,
+        "public_opinion": 10,
+        "military": 10
+    },
+    "value1": 10,
+    "value2": 10,
+    "value3": 10,
+    "value4": 10
+
+  }

@@ -1,5 +1,8 @@
 ---
 # The Head that Wears the Crown
+
+I'm coming back to this project after some time away. I'm starting with a new plan, so things are outdated. Honestly, I wouldn't recommend reading through this beyond the core idea, and it's not worth installing on your device right now. Send me a message if you're interested in what I'm doing and wanna talk or text or help out, that's it, thanks.
+
 "The Head that Wears the Crown" is an ambitious project inspired by narrative-driven games like Dwarf Fortress, RimWorld, and Crusader Kings. It aims to create a dynamic story generator game with gameplay similar to "Sort the Court," where players make decisions each turn, influencing the simulated world powered by Language Learning Models (LLMs).
 
 ## Project Vision

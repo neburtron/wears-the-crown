@@ -1,0 +1,17 @@
+{
+    "Personality_Traits":{
+        "Bombasity": 50,
+        "Work_Ethic": 50,
+        "Charisma": 50,
+        "Confidence": 50,
+        "Agreeableness": 50,
+        "Formality": 50,
+        "Competence": 50,
+        "Willingness_to_Decieve": 50
+    },
+    "ideals":{
+        "First": "Example",
+        "Second": "Example",
+        "Third": "Only 3, no more, these are broader core idelogical stances"
+    }
+  }
